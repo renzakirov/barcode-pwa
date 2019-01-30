@@ -2,8 +2,8 @@
   div
     Button(type="success" @click="startScan" v-show="mode==0") SCAN
     Button(type="error" @click="stopScan" v-show="mode!==0") STOP
-
-    Scanner(v-if="mode===1")
+    h1(v-show="barcode") {{ barcode }}
+    Scanner(v-if="mode===1" @stop-scan="stopScan")
 
 </template>
 
@@ -19,13 +19,15 @@ export default {
   data() {
     return {
       mode: 0,
+      barcode: 0,
     }
   },
   methods: {
     startScan() {
       this.mode = 1;
     },
-    stopScan() {
+    stopScan(barcode = 0) {
+      this.barcode = barcode;
       this.mode = 0;
       this.$Quagga.stop();
     },
