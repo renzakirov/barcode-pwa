@@ -1,18 +1,34 @@
-<template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
+<template lang="pug">
+  div
+    Button(type="success" @click="startScan" v-show="mode==0") SCAN
+    Button(type="error" @click="stopScan" v-show="mode!==0") STOP
+
+    Scanner(v-if="mode===1")
+
 </template>
 
+
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import Scanner from '@/components/Scanner.vue';
 
 export default {
-  name: "home",
+  name: 'home',
   components: {
-    HelloWorld
-  }
+    Scanner,
+  },
+  data() {
+    return {
+      mode: 0,
+    }
+  },
+  methods: {
+    startScan() {
+      this.mode = 1;
+    },
+    stopScan() {
+      this.mode = 0;
+      this.$Quagga.stop();
+    },
+  },
 };
 </script>
